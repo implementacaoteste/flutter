@@ -1,5 +1,6 @@
 import 'package:contador_de_pessoas/app_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -24,8 +25,9 @@ class HomePageState extends State {
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          //mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Contador $counter'),
             Container(
@@ -35,6 +37,74 @@ class HomePageState extends State {
             Container(
               height: 50,
             ),
+            Container(
+              height: 50,
+            ),
+            CustomSwitch(),
+            Container(
+              height: 50,
+            ),
+            CustomSwitch(),
+            Container(
+              height: 50,
+            ),
+            CustomSwitch(),
+            Container(
+              height: 50,
+            ),
+            CustomSwitch(),
+            Container(
+              height: 50,
+            ),
+            CustomSwitch(),
+            Container(
+              height: 50,
+            ),
+            CustomSwitch(),
+            Container(
+              height: 50,
+            ),
+            CustomSwitch(),
+            Container(
+              height: 50,
+            ),
+            CustomSwitch(),
+            Container(
+              height: 50,
+            ),
+            CustomSwitch(),
+            Container(
+              height: 50,
+            ),
+            CustomSwitch(),
+            Container(
+              height: 50,
+            ),
+            CustomSwitch(),
+            Container(
+              height: 50,
+            ),
+            CustomSwitch(),
+            Container(
+              height: 50,
+            ),
+            CustomSwitch(),
+            Container(
+              height: 50,
+            ),
+            CustomSwitch(),
+            Container(
+              height: 50,
+            ),
+            CustomSwitch(),
+            Container(
+              height: 50,
+            ),
+            CustomSwitch(),
+            Container(
+              height: 50,
+            ),
+            CustomSwitch(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               //crossAxisAlignment: CrossAxisAlignment.stretch,
