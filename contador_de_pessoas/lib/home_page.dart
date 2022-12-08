@@ -1,3 +1,4 @@
+import 'package:contador_de_pessoas/app_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -20,16 +21,13 @@ class HomePageState extends State {
           'Meu contador',
         ),
       ),
-      body: Container(
-        height: 200,
-        width: 200,
-        color: Colors.black,
-        child: Center(
-            child: Container(
-          width: 110,
-          height: 110,
-          color: Colors.yellow,
-        )),
+      body: Center(
+        child: Switch(
+          value: AppController.instance.isDartTheme,
+          onChanged: (bool value) {
+            AppController.instance.changeTheme();
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
