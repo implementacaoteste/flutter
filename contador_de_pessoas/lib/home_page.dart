@@ -21,8 +21,17 @@ class HomePageState extends State {
         ),
         actions: [CustomSwitch()],
       ),
-      body: Center(
-        child: const CustomSwitch(),
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Contador $counter'),
+            CustomSwitch(),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
