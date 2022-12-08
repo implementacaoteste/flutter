@@ -1,5 +1,4 @@
 import 'package:contador_de_pessoas/app_controller.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,14 +19,10 @@ class HomePageState extends State {
         title: Text(
           'Meu contador',
         ),
+        actions: [CustomSwitch()],
       ),
       body: Center(
-        child: Switch(
-          value: AppController.instance.isDartTheme,
-          onChanged: (bool value) {
-            AppController.instance.changeTheme();
-          },
-        ),
+        child: const CustomSwitch(),
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
@@ -39,6 +34,20 @@ class HomePageState extends State {
           );
         },
       ),
+    );
+  }
+}
+
+class CustomSwitch extends StatelessWidget {
+  const CustomSwitch({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Switch(
+      value: AppController.instance.isDartTheme,
+      onChanged: (bool value) {
+        AppController.instance.changeTheme();
+      },
     );
   }
 }
