@@ -6,7 +6,7 @@ void main(List<String> args) {
     child: const Center(
       child: Text(
         'asdf',
-        textDirection: TextDirection.rtl,
+        textDirection: TextDirection.ltr,
         style: TextStyle(color: Colors.white, fontSize: 100.0),
       ),
     ),
