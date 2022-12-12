@@ -45,42 +45,56 @@ class _LoginPageState extends State<LoginPage> {
               width: 100,
               child: Image.asset('assets/images/supercandida.jpg'),
             ),
-            TextField(
-              onChanged: (text) {
-                email = text;
-              },
-              keyboardType: TextInputType.emailAddress,
-              // ignore: prefer_const_constructors
-              decoration: InputDecoration(
-                labelText: 'E-mail',
-                border: const OutlineInputBorder(),
+            Card(
+              child: Padding(
+                padding:
+                    EdgeInsets.only(top: 20, left: 12, right: 12, bottom: 12),
+                child: Column(children: [
+                  TextField(
+                    onChanged: (text) {
+                      email = text;
+                    },
+                    keyboardType: TextInputType.emailAddress,
+                    // ignore: prefer_const_constructors
+                    decoration: InputDecoration(
+                      labelText: 'E-mail',
+                      border: const OutlineInputBorder(),
+                    ),
+                  ),
+                  Container(
+                    height: 20,
+                  ),
+                  TextField(
+                    onChanged: (text) {
+                      senha = text;
+                    },
+                    obscureText: true,
+                    // ignore: prefer_const_constructors
+                    decoration: InputDecoration(
+                      labelText: 'Senha',
+                      border: const OutlineInputBorder(),
+                    ),
+                  ),
+                  Container(
+                    height: 15,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (email == 'erisvaldo@gmail.com' && senha == '123456')
+                        Navigator.of(context).pushReplacementNamed('/home');
+                      else if (kDebugMode) print('Usuário ou senha incorreta!');
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      child: const Text(
+                        'Entrar',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ]),
               ),
-            ),
-            Container(
-              height: 20,
-            ),
-            TextField(
-              onChanged: (text) {
-                senha = text;
-              },
-              obscureText: true,
-              // ignore: prefer_const_constructors
-              decoration: InputDecoration(
-                labelText: 'Senha',
-                border: const OutlineInputBorder(),
-              ),
-            ),
-            Container(
-              height: 10,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (email == 'erisvaldo@gmail.com' && senha == '123456')
-                  Navigator.of(context).pushReplacementNamed('/home');
-                else if (kDebugMode) print('Usuário ou senha incorreta!');
-              },
-              child: const Text('Entrar'),
-            ),
+            )
           ]),
         ),
       ),
