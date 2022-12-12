@@ -48,9 +48,7 @@ class _LoginPageState extends State<LoginPage> {
               ElevatedButton(
                 onPressed: () {
                   if (email == 'erisvaldo@gmail.com' && senha == '123456')
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => HomePage()),
-                    );
+                    Navigator.of(context).pushReplacementNamed('/home');
                   else if (kDebugMode) print('Usuário ou senha incorreta!');
                 },
                 child: const Text('Entrar'),
