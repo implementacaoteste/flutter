@@ -1,6 +1,6 @@
+import 'package:contador_de_pessoas/home_page.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,55 +12,50 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String email = '';
   String senha = '';
-
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: SingleChildScrollView(
-        child: SizedBox(
-          height: double.infinity,
-          width: double.infinity,
+      child: Scaffold(
+        body: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
           child: Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextField(
-                  onChanged: (text) {
-                    email = text;
-                  },
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: 'E-mail',
-                    border: OutlineInputBorder(),
-                  ),
+            padding: const EdgeInsets.all(8.0),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              TextField(
+                onChanged: (text) {
+                  email = text;
+                },
+                keyboardType: TextInputType.emailAddress,
+                // ignore: prefer_const_constructors
+                decoration: InputDecoration(
+                  labelText: 'E-mail',
+                  border: const OutlineInputBorder(),
                 ),
-                const SizedBox(
-                  height: 10,
+              ),
+              TextField(
+                onChanged: (text) {
+                  senha = text;
+                },
+                obscureText: true,
+                // ignore: prefer_const_constructors
+                decoration: InputDecoration(
+                  labelText: 'Senha',
+                  border: const OutlineInputBorder(),
                 ),
-                TextField(
-                  onChanged: (text) {
-                    senha = text;
-                  },
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Senha',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      if (email == 'erisvaldo@gmail.com' && senha == '123456')
-                        print('correto');
-                      else
-                        print('incorreto');
-                    },
-                    child: Text('Enrar')),
-              ],
-            ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  if (email == 'erisvaldo@gmail.com' && senha == '123456')
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                    );
+                  else if (kDebugMode) print('Usuário ou senha incorreta!');
+                },
+                child: const Text('Entrar'),
+              ),
+            ]),
           ),
         ),
       ),

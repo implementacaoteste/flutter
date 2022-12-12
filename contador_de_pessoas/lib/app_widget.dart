@@ -1,9 +1,9 @@
 import 'package:contador_de_pessoas/app_controller.dart';
+import 'package:contador_de_pessoas/login_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'home_page.dart';
-import 'login_page.dart';
 
 class AppWidget extends StatelessWidget {
   final String title;
@@ -16,6 +16,7 @@ class AppWidget extends StatelessWidget {
       animation: AppController.instance,
       builder: (context, child) {
         return MaterialApp(
+          //debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primarySwatch: Colors.yellow,
             brightness: AppController.instance.isDartTheme
