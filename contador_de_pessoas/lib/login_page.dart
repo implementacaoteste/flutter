@@ -14,9 +14,9 @@ class _LoginPageState extends State<LoginPage> {
   String senha = '';
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Scaffold(
-        body: SizedBox(
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Padding(
@@ -24,8 +24,8 @@ class _LoginPageState extends State<LoginPage> {
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Container(
-                height: 100,
-                width: 100,
+                //height: 100,
+                //width: 100,
                 child: Image.asset('assets/images/supercandida.jpg'),
               ),
               TextField(
