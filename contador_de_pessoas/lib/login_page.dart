@@ -26,8 +26,7 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 height: 100,
                 width: 100,
-                child: Image.network(
-                    'https://shopee.com.br/blog/wp-content/uploads/2021/08/Agua-Sanitaria-420x420.jpg'),
+                child: Image.asset('assets/images/supercandida.jpg'),
               ),
               TextField(
                 onChanged: (text) {
