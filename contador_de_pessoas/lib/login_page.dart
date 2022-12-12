@@ -23,6 +23,12 @@ class _LoginPageState extends State<LoginPage> {
             padding: const EdgeInsets.all(8.0),
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Container(
+                height: 100,
+                width: 100,
+                child: Image.network(
+                    'https://shopee.com.br/blog/wp-content/uploads/2021/08/Agua-Sanitaria-420x420.jpg'),
+              ),
               TextField(
                 onChanged: (text) {
                   email = text;
@@ -34,6 +40,9 @@ class _LoginPageState extends State<LoginPage> {
                   border: const OutlineInputBorder(),
                 ),
               ),
+              Container(
+                height: 20,
+              ),
               TextField(
                 onChanged: (text) {
                   senha = text;
@@ -44,6 +53,9 @@ class _LoginPageState extends State<LoginPage> {
                   labelText: 'Senha',
                   border: const OutlineInputBorder(),
                 ),
+              ),
+              Container(
+                height: 10,
               ),
               ElevatedButton(
                 onPressed: () {
