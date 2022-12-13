@@ -65,6 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 20,
                   ),
                   TextField(
+                    keyboardType: TextInputType.number,
                     onChanged: (text) {
                       senha = text;
                     },
@@ -80,7 +81,8 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      if (email == 'erisvaldo@gmail.com' && senha == '123456')
+                      if (email == 'erisvaldocarvalhosilva@gmail.com' &&
+                          senha == '123456')
                         Navigator.of(context).pushReplacementNamed('/home');
                       else if (kDebugMode) print('Usuário ou senha incorreta!');
                     },

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:contador_de_pessoas/app_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -15,6 +17,35 @@ class HomePageState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: Column(children: [
+          UserAccountsDrawerHeader(
+            currentAccountPicture: ClipRRect(
+              borderRadius: BorderRadius.circular(40),
+              child: Image.network(
+                  'https://avatars.githubusercontent.com/u/13559517?v=4'),
+            ),
+            accountEmail: const Text('erisvaldocarvalhosilva@gmail.com'),
+            accountName: const Text('Erisvaldo'),
+          ),
+          ListTile(
+            leading: Icon(Icons.home),
+            title: Text('Início'),
+            subtitle: Text('Tela de início'),
+            onTap: () {
+              print('Home');
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.logout),
+            title: Text('Logout'),
+            subtitle: Text('Finalizar seção'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/');
+            },
+          ),
+        ]),
+      ),
       appBar: AppBar(
         // ignore: prefer_const_constructors
         title: Text(
