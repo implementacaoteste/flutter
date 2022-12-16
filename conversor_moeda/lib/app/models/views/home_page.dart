@@ -7,7 +7,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
+        padding: EdgeInsets.only(top: 20, left: 20, right: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -70,6 +70,17 @@ class HomeView extends StatelessWidget {
                             onChanged: (value) {
                               print(value);
                             }),
+                        Container(
+                          width: 10,
+                        ),
+                        Container(
+                          height: 30,
+                          width: 110,
+                          color: Colors.black,
+                          child: TextField(
+                            keyboardType: TextInputType.number,
+                          ),
+                        ),
                       ],
                     ),
                     Row(
