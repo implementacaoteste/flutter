@@ -28,11 +28,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _resposta = 0;
+  int _nivel = 1;
+  int _acertoSequencial = 0;
   int _min = 1;
-  int _max = 10000;
+  int _max = 5;
   Random random = Random();
-  int _x = 123;
-  int _y = 8484;
+  int _x = 2;
+  int _y = 3;
   int _moedas = 0;
   final TextEditingController _controller = TextEditingController();
 
@@ -138,13 +140,30 @@ class _HomePageState extends State<HomePage> {
                   if (_x + _y == _resposta) {
                     print('Acertou');
                     setState(() {
+                      _max = _nivel * 5;
                       _x = _min + random.nextInt(_max - _min + 1);
                       _y = _min + random.nextInt(_max - _min + 1);
-                      _moedas++;
+                      _acertoSequencial++;
+                      print(_acertoSequencial);
+                      print(_nivel);
+                      if (_acertoSequencial == 5) {
+                        _moedas += 5;
+                        _acertoSequencial = 0;
+                        _nivel++;
+                      } else
+                        _moedas++;
                       _controller.clear();
                     });
-                  } else
+                  } else {
+                    setState(() {
+                      _acertoSequencial = 0;
+                      _moedas -= 5;
+                      _nivel--;
+                      if (_nivel < 1) _nivel = 1;
+                      if (_moedas < 0) _moedas = 0;
+                    });
                     print('Errou');
+                  }
                 },
                 child: Text('Checar')),
             Container(
@@ -174,6 +193,7 @@ class _HomePageState extends State<HomePage> {
                           _x = _min + random.nextInt(_max - _min + 1);
                           _y = _min + random.nextInt(_max - _min + 1);
                           _moedas -= 2;
+                          _acertoSequencial = 0;
                           _controller.clear();
                         } else {}
                       });
