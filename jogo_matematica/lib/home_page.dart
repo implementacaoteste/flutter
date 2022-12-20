@@ -39,7 +39,116 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     iniciarVariaveis();
     return Scaffold(
-      drawer: Drawer(),
+      drawer: Drawer(
+        child: Column(children: [
+          Container(
+            height: 50,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text('_resposta: $_resposta'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text('_min: $_min'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text('_max: $_max'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text('_x: $_x'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text('_y: $_y'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text('_temp: $_temp'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text('_moedas: $_moedas'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text('_vidas: $_vidas'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text('_operador: $_operador'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text('_acertoSequencialAdicao: $_acertoSequencialAdicao'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text('_acertoSequencialSubtracao: $_acertoSequencialSubtracao'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                  '_acertoSequencialMultiplicacao: $_acertoSequencialMultiplicacao'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text('_acertoSequencialDivisao: $_acertoSequencialDivisao'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text('_nivelAdicao: $_nivelAdicao'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text('_nivelSubtracao: $_nivelSubtracao'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text('_nivelMultiplicacao: $_nivelMultiplicacao'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text('_nivelDivisao: $_nivelDivisao'),
+            ],
+          ),
+        ]),
+      ),
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -87,9 +196,14 @@ class _HomePageState extends State<HomePage> {
               height: 70,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
+                // image: DecorationImage(
+                //   image: NetworkImage(
+                //       'https://avatars.githubusercontent.com/u/13559517?v=4'),
+                //   fit: BoxFit.cover,
+                // ),
                 image: DecorationImage(
                   image: NetworkImage(
-                      'https://avatars.githubusercontent.com/u/13559517?v=4'),
+                      'https://yt3.ggpht.com/UpKNFIaQbFlKFOOKBMpuqhPzDiGckIG60KDYqgQFrh0t22c7IiS1DclkR15C9EJQNkjUw_ap=s88-c-k-c0x00ffffff-no-rj'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -220,7 +334,7 @@ class _HomePageState extends State<HomePage> {
           }
           break;
         case '÷':
-          if (_x / _y == _resposta) {
+          if (_x ~/ _y == _resposta) {
             acertou();
           } else {
             _nivelDivisao--;
@@ -316,10 +430,10 @@ class _HomePageState extends State<HomePage> {
         gerarDesafioDeMultiplicacao();
         break;
       case 4:
-        // _operador = '÷';
-        // gerarDesafioDeDivisao();
-        _operador = '+';
-        gerarDesafioDeAdicao();
+        _operador = '÷';
+        gerarDesafioDeDivisao();
+        //_operador = '+';
+        //gerarDesafioDeAdicao();
         break;
       default:
     }
@@ -345,59 +459,71 @@ class _HomePageState extends State<HomePage> {
   }
 
   void gerarDesafioDeMultiplicacao() {
-    // _max = _nivelMultiplicacao * 5;
-    // _x = _min + random.nextInt(_max - _min + 1);
-    // _y = _min + random.nextInt(_max - _min + 1);
-    _x = 1 + random.nextInt(5);
-    _y = 1 + random.nextInt(5);
+    _max = _nivelMultiplicacao;
+    if (_nivelMultiplicacao > 10) _max = _nivelMultiplicacao * 5;
+    //if (_nivelMultiplicacao <= 10 && _max > 10) _max = 10;
+    _x = _min + random.nextInt(_max - _min + 1);
+    _y = _min + random.nextInt(_max - _min + 1);
   }
 
   void gerarDesafioDeDivisao() {
+    int aux;
+
     _max = _nivelDivisao * 5;
     _x = _min + random.nextInt(_max - _min + 1);
     _y = _min + random.nextInt(_max - _min + 1);
+
+    if (_x < _y) {
+      aux = _x;
+      _x = _y;
+      _y = aux;
+    }
   }
 
   int selecionarOperador() {
     int retorno = 1;
 
-    mostrarStatus();
+    colocarEstrelas();
+
+    List<Operador> operadores = [
+      Operador(_nivelAdicao, '+', 1),
+      if (_nivelAdicao > GANHA_ESTRELA) Operador(_nivelSubtracao, '-', 2),
+      if (_nivelAdicao > GANHA_ESTRELA && _nivelSubtracao > GANHA_ESTRELA)
+        Operador(_nivelMultiplicacao, 'x', 3),
+      if (_nivelAdicao > GANHA_ESTRELA &&
+          _nivelSubtracao > GANHA_ESTRELA &&
+          _nivelMultiplicacao > GANHA_ESTRELA)
+        Operador(_nivelDivisao, '÷', 4),
+    ];
+
+    operadores.sort((a, b) => a.nivel.compareTo(b.nivel));
+    retorno = operadores[0].numeroOperador;
+    if (retorno != 1) {
+      retorno = retorno;
+    }
+    return retorno;
+  }
+
+  void colocarEstrelas() {
     _estrelas = 0;
     if (_nivelAdicao > GANHA_ESTRELA) _estrelas++;
     if (_nivelSubtracao > GANHA_ESTRELA) _estrelas++;
     if (_nivelMultiplicacao > GANHA_ESTRELA) _estrelas++;
     if (_nivelDivisao > GANHA_ESTRELA) _estrelas++;
-
-    if (_nivelAdicao > GANHA_ESTRELA) {
-      if (_nivelSubtracao > GANHA_ESTRELA) {
-        if (_nivelMultiplicacao > GANHA_ESTRELA) {
-          if (_nivelDivisao > GANHA_ESTRELA) {
-            retorno = 1 + random.nextInt(4);
-          }
-        } else {
-          retorno = 1 + random.nextInt(3);
-        }
-      } else {
-        retorno = 1 + random.nextInt(2);
-        if (retorno != 2 && _nivelSubtracao < _nivelAdicao)
-          for (int i = 0; retorno != 2 && i < 2; i++) {
-            retorno = 1 + random.nextInt(2);
-          }
-      }
-    } else {
-      retorno = 1;
-    }
-    return retorno;
+    if (_nivelAdicao >= 10 &&
+        _nivelSubtracao >= 10 &&
+        _nivelMultiplicacao >= 10 &&
+        _nivelDivisao >= 10) _estrelas++;
   }
 
   void iniciarVariaveis() {
-    //_iniarVariaveis = false;
+    _iniarVariaveis = false;
     if (_iniarVariaveis)
       setState(() {
         _resposta = 0;
         _nivelAdicao = 5;
-        _nivelSubtracao = 1;
-        _nivelMultiplicacao = 1;
+        _nivelSubtracao = 5;
+        _nivelMultiplicacao = 5;
         _nivelDivisao = 1;
         _acertoSequencialAdicao = 0;
         _acertoSequencialSubtracao = 0;
@@ -410,13 +536,14 @@ class _HomePageState extends State<HomePage> {
         _temp = 1;
         _operador = '+';
         _moedas = 48;
-        _vidas = 0;
+        _vidas = 3;
         _estrelas = 1;
       });
     _iniarVariaveis = false;
   }
 
-  void mostrarStatus() {
+//TODO: Excluir esse método
+  void excluir_mostrarStatus() {
     print('_resposta: $_resposta');
     print('_min: $_min');
     print('_max: $_max');
@@ -435,4 +562,12 @@ class _HomePageState extends State<HomePage> {
     print('_nivelMultiplicacao: $_nivelMultiplicacao');
     print('_nivelDivisao: $_nivelDivisao');
   }
+}
+
+class Operador {
+  int nivel = 0;
+  int numeroOperador;
+  String operador = '';
+
+  Operador(this.nivel, this.operador, this.numeroOperador);
 }
