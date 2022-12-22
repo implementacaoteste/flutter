@@ -1,8 +1,6 @@
-import 'dart:convert';
-import 'dart:math';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:jogo_matematica/acertou_page.dart';
+import 'package:jogo_matematica/errou_page.dart';
 
 import 'home_page.dart';
 
@@ -22,7 +20,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(),
-      home: HomePage(),
+      //home: HomePage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomePage(),
+        '/acertou': (context) => AcertouPage(),
+        '/errou': (context) => ErrouPage(),
+      },
     );
   }
 }

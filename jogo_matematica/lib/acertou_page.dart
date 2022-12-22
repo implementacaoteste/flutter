@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -13,6 +15,10 @@ class AcertouPage extends StatefulWidget {
 class _AcertouPageState extends State<AcertouPage> {
   @override
   Widget build(BuildContext context) {
+    Timer.periodic(Duration(seconds: 5), (timer) {
+      Navigator.pop(context);
+      timer.cancel();
+    });
     return Column(
       children: [
         Row(

@@ -1,5 +1,8 @@
+import 'dart:async';
+import 'dart:html';
+import 'dart:io';
 import 'dart:math';
-
+//import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,7 +17,11 @@ class _HomePageState extends State<HomePage> {
   int _resposta = 0;
   final int GANHA_ESTRELA =
       4; //Quando o nível chega neste valor o usuário ganha uma estrela.
+  //AudioPlayer audioPlayer = AudioPlayer();
+  String cashRegisterSoundPath = 'assets/sons/caixa_registradora.wav';
+
   int _nivelAdicao = 1;
+  int teste = 10;
   int _nivelSubtracao = 1;
   int _nivelMultiplicacao = 1;
   int _nivelDivisao = 1;
@@ -32,12 +39,15 @@ class _HomePageState extends State<HomePage> {
   int _moedas = 0;
   int _vidas = 3;
   int _estrelas = 0;
+  bool _acertou = false;
+  bool _errou = false;
 
   final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     iniciarVariaveis();
+    mostrarErroAcerto();
     return Scaffold(
       drawer: Drawer(
         child: Column(children: [
@@ -147,6 +157,20 @@ class _HomePageState extends State<HomePage> {
               Text('_nivelDivisao: $_nivelDivisao'),
             ],
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  _nivelAdicao = 12;
+                  _nivelSubtracao = 12;
+                  _nivelMultiplicacao = 10;
+                  _nivelDivisao = 12;
+                },
+                child: const Text('Avançar'),
+              ),
+            ],
+          ),
         ]),
       ),
       appBar: AppBar(
@@ -212,98 +236,123 @@ class _HomePageState extends State<HomePage> {
         ),
         Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  _x.toString(),
-                  style: TextStyle(
-                    fontSize: 40,
+            if (_acertou)
+              Icon(
+                Icons.check_box,
+                size: 100,
+                color: Colors.green,
+              )
+            else if (_errou)
+              Icon(
+                Icons.thumb_down,
+                size: 100,
+                color: Colors.red,
+              )
+            else
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        _x.toString(),
+                        style: TextStyle(
+                          fontSize: 40,
+                        ),
+                      ),
+                      Container(width: 150),
+                    ],
                   ),
-                ),
-                Container(width: 150),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  '$_operador'.padRight(_x.toString().length, ' '),
-                  style: TextStyle(fontSize: 40),
-                ),
-                Text(
-                  _y.toString(),
-                  style: TextStyle(fontSize: 40),
-                ),
-                Container(width: 150),
-              ],
-            ),
-            Container(
-              width: 200,
-              color: Colors.white,
-              child: TextField(
-                controller: _controller,
-                keyboardType: TextInputType.number,
-                style: TextStyle(
-                  fontSize: 40,
-                  color: Colors.black,
-                ),
-                textAlign: TextAlign.center,
-                onChanged: (text) {
-                  if (text != '')
-                    _resposta = int.parse(text.replaceAll(' ', ''));
-                },
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        '$_operador'.padRight(_x.toString().length, ' '),
+                        style: TextStyle(fontSize: 40),
+                      ),
+                      Text(
+                        _y.toString(),
+                        style: TextStyle(fontSize: 40),
+                      ),
+                      Container(width: 150),
+                    ],
+                  ),
+                  Container(
+                    width: 200,
+                    color: Colors.white,
+                    child: TextField(
+                      controller: _controller,
+                      keyboardType: TextInputType.number,
+                      style: TextStyle(
+                        fontSize: 40,
+                        color: Colors.black,
+                      ),
+                      textAlign: TextAlign.center,
+                      onChanged: (text) {
+                        if (text != '')
+                          _resposta = int.parse(text.replaceAll(' ', ''));
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 50,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 10,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _controller.clear();
+                          });
+                        },
+                        child: Icon(Icons.delete),
+                      ),
+                      Container(
+                        width: 10,
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              if (_moedas >= 2) {
+                                gerarDesafio();
+                                _moedas -= 2;
+                                _acertoSequencialAdicao = 0;
+                                _acertoSequencialSubtracao = 0;
+                                _acertoSequencialMultiplicacao = 0;
+                                _acertoSequencialDivisao = 0;
+                                _controller.clear();
+                              } else {}
+                            });
+                          },
+                          child: Text('Pular -2 moedas')),
+                    ],
+                  ),
+                  Container(
+                    height: 50,
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        checarAcerto();
+                      },
+                      child: Text('Checar')),
+                ],
               ),
-            ),
-            Container(
-              height: 50,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 10,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      _controller.clear();
-                    });
-                  },
-                  child: Icon(Icons.delete),
-                ),
-                Container(
-                  width: 10,
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        if (_moedas >= 2) {
-                          gerarDesafio();
-                          _moedas -= 2;
-                          _acertoSequencialAdicao = 0;
-                          _acertoSequencialSubtracao = 0;
-                          _acertoSequencialMultiplicacao = 0;
-                          _acertoSequencialDivisao = 0;
-                          _controller.clear();
-                        } else {}
-                      });
-                    },
-                    child: Text('Pular -2 moedas')),
-              ],
-            ),
-            Container(
-              height: 50,
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  checarAcerto();
-                },
-                child: Text('Checar')),
           ],
         ),
       ]),
     );
+  }
+
+  Future<void> mostrarErroAcerto() async {
+    await Future.delayed(Duration(seconds: 5));
+    setState(() {
+      _acertou = false;
+      _errou = false;
+    });
   }
 
   void checarAcerto() {
@@ -362,10 +411,13 @@ class _HomePageState extends State<HomePage> {
       if (_nivelDivisao < 1) _nivelDivisao = 1;
       if (_moedas < 0) _moedas = 0;
       _controller.clear();
+      _errou = true;
     });
+    mostrarErroAcerto();
   }
 
   void acertou() {
+    //audioPlayer.play(cashRegisterSoundPath);
     setState(() {
       _acertoSequencialAdicao++;
       _acertoSequencialSubtracao++;
@@ -381,7 +433,9 @@ class _HomePageState extends State<HomePage> {
       }
       gerarDesafio();
       _controller.clear();
+      _acertou = true;
     });
+    mostrarErroAcerto();
   }
 
   void ganharMoedasBonus() {
