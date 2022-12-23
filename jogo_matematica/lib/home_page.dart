@@ -11,6 +11,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late FocusNode _focusNode;
   bool _iniarVariaveis = true;
   int _resposta = 0;
   final int GANHA_ESTRELA =
@@ -19,7 +20,6 @@ class _HomePageState extends State<HomePage> {
   String cashRegisterSoundPath = 'assets/sons/caixa_registradora.wav';
 
   int _nivelAdicao = 1;
-  int teste = 10;
   int _nivelSubtracao = 1;
   int _nivelMultiplicacao = 1;
   int _nivelDivisao = 1;
@@ -39,8 +39,13 @@ class _HomePageState extends State<HomePage> {
   int _estrelas = 0;
   bool _acertou = false;
   bool _errou = false;
-
   final TextEditingController _controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = FocusNode();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -160,10 +165,10 @@ class _HomePageState extends State<HomePage> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  _nivelAdicao = 12;
-                  _nivelSubtracao = 12;
-                  _nivelMultiplicacao = 10;
-                  _nivelDivisao = 12;
+                  // _nivelAdicao = 12;
+                  // _nivelSubtracao = 12;
+                  // _nivelMultiplicacao = 10;
+                  // _nivelDivisao = 12;
                 },
                 child: const Text('Avançar'),
               ),
@@ -203,145 +208,171 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: Column(children: [
-        Container(
-          height: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              width: 10,
-            ),
-            Container(
-              width: 70,
-              height: 70,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                // image: DecorationImage(
-                //   image: NetworkImage(
-                //       'https://avatars.githubusercontent.com/u/13559517?v=4'),
-                //   fit: BoxFit.cover,
-                // ),
-                image: DecorationImage(
-                  image: NetworkImage(
-                      'https://yt3.ggpht.com/UpKNFIaQbFlKFOOKBMpuqhPzDiGckIG60KDYqgQFrh0t22c7IiS1DclkR15C9EJQNkjUw_ap=s88-c-k-c0x00ffffff-no-rj'),
-                  fit: BoxFit.cover,
+      body: Column(
+        children: [
+          Container(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                width: 10,
+              ),
+              Container(
+                width: 70,
+                height: 70,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  // image: DecorationImage(
+                  //   image: NetworkImage(
+                  //       'https://avatars.githubusercontent.com/u/13559517?v=4'),
+                  //   fit: BoxFit.cover,
+                  // ),
+                  image: DecorationImage(
+                    image: NetworkImage(
+                        'https://yt3.ggpht.com/UpKNFIaQbFlKFOOKBMpuqhPzDiGckIG60KDYqgQFrh0t22c7IiS1DclkR15C9EJQNkjUw_ap=s88-c-k-c0x00ffffff-no-rj'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-        Column(
-          children: [
-            if (_acertou)
-              Icon(
-                Icons.check_box,
-                size: 100,
-                color: Colors.green,
-              )
-            else if (_errou)
-              Icon(
-                Icons.thumb_down,
-                size: 100,
-                color: Colors.red,
-              )
-            else
-              Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        _x.toString(),
-                        style: TextStyle(
-                          fontSize: 40,
-                        ),
-                      ),
-                      Container(width: 150),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        '$_operador'.padRight(_x.toString().length, ' '),
-                        style: TextStyle(fontSize: 40),
-                      ),
-                      Text(
-                        _y.toString(),
-                        style: TextStyle(fontSize: 40),
-                      ),
-                      Container(width: 150),
-                    ],
+            ],
+          ),
+          Column(
+            children: [
+              if (_acertou)
+                Icon(
+                  Icons.thumb_up,
+                  size: 100,
+                  color: Colors.green,
+                )
+              else if (_errou)
+                Icon(
+                  Icons.thumb_down,
+                  size: 100,
+                  color: Colors.red,
+                )
+              else if (_vidas == 0)
+                Column(children: [
+                  Container(
+                    height: 50,
                   ),
                   Container(
-                    width: 200,
-                    color: Colors.white,
-                    child: TextField(
-                      controller: _controller,
-                      keyboardType: TextInputType.number,
-                      style: TextStyle(
-                        fontSize: 40,
-                        color: Colors.black,
-                      ),
-                      textAlign: TextAlign.center,
-                      onChanged: (text) {
-                        if (text != '')
-                          _resposta = int.parse(text.replaceAll(' ', ''));
-                      },
+                    child: Text(
+                      'Game Over',
+                      style: TextStyle(fontSize: 50),
                     ),
                   ),
-                  Container(
-                    height: 50,
+                  FloatingActionButton(
+                    onPressed: () {
+                      reiniciarJogo();
+                    },
+                    child: Icon(
+                      Icons.refresh,
+                      size: 50,
+                      color: Colors.white,
+                    ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 10,
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            _controller.clear();
-                          });
+                ])
+              else
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          _x.toString(),
+                          style: TextStyle(
+                            fontSize: 40,
+                          ),
+                        ),
+                        Container(width: 150),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          '$_operador'.padRight(_x.toString().length, ' '),
+                          style: TextStyle(fontSize: 40),
+                        ),
+                        Text(
+                          _y.toString(),
+                          style: TextStyle(fontSize: 40),
+                        ),
+                        Container(width: 150),
+                      ],
+                    ),
+                    Container(
+                      width: 200,
+                      color: Colors.white,
+                      child: TextField(
+                        autofocus: true,
+                        focusNode: _focusNode,
+                        controller: _controller,
+                        keyboardType: TextInputType.number,
+                        style: TextStyle(
+                          fontSize: 40,
+                          color: Colors.black,
+                        ),
+                        textAlign: TextAlign.center,
+                        onChanged: (text) {
+                          if (text != '')
+                            _resposta = int.parse(text.replaceAll(' ', ''));
                         },
-                        child: Icon(Icons.delete),
                       ),
-                      Container(
-                        width: 10,
-                      ),
-                      ElevatedButton(
+                    ),
+                    Container(
+                      height: 50,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 10,
+                        ),
+                        ElevatedButton(
                           onPressed: () {
                             setState(() {
-                              if (_moedas >= 2) {
-                                gerarDesafio();
-                                _moedas -= 2;
-                                _acertoSequencialAdicao = 0;
-                                _acertoSequencialSubtracao = 0;
-                                _acertoSequencialMultiplicacao = 0;
-                                _acertoSequencialDivisao = 0;
-                                _controller.clear();
-                              } else {}
+                              _controller.clear();
                             });
                           },
-                          child: Text('Pular -2 moedas')),
-                    ],
-                  ),
-                  Container(
-                    height: 50,
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        checarAcerto();
-                      },
-                      child: Text('Checar')),
-                ],
-              ),
-          ],
-        ),
-      ]),
+                          child: Icon(Icons.delete),
+                        ),
+                        Container(
+                          width: 10,
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                if (_moedas >= 2) {
+                                  gerarDesafio();
+                                  _moedas -= 2;
+                                  _acertoSequencialAdicao = 0;
+                                  _acertoSequencialSubtracao = 0;
+                                  _acertoSequencialMultiplicacao = 0;
+                                  _acertoSequencialDivisao = 0;
+                                  _controller.clear();
+                                } else {}
+                              });
+                            },
+                            child: Text('Pular -2 moedas')),
+                      ],
+                    ),
+                    Container(
+                      height: 50,
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          if (_controller.text != '') checarAcerto();
+                        },
+                        child: Text('Checar')),
+                  ],
+                ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -433,6 +464,7 @@ class _HomePageState extends State<HomePage> {
       _controller.clear();
       _acertou = true;
     });
+
     mostrarErroAcerto();
   }
 
@@ -566,6 +598,29 @@ class _HomePageState extends State<HomePage> {
         _nivelSubtracao >= 10 &&
         _nivelMultiplicacao >= 10 &&
         _nivelDivisao >= 10) _estrelas++;
+  }
+
+  void reiniciarJogo() {
+    _resposta = 0;
+    _nivelAdicao = 1;
+    _nivelSubtracao = 1;
+    _nivelMultiplicacao = 1;
+    _nivelDivisao = 1;
+    _acertoSequencialAdicao = 0;
+    _acertoSequencialSubtracao = 0;
+    _acertoSequencialMultiplicacao = 0;
+    _acertoSequencialDivisao = 0;
+    _min = 1;
+    _max = 5;
+    _x = 2;
+    _y = 3;
+    _temp = 1;
+    _operador = '+';
+    _moedas = 0;
+    _vidas = 3;
+    _estrelas = 0;
+    _acertou = false;
+    _errou = false;
   }
 
   void iniciarVariaveis() {
