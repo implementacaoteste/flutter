@@ -23,6 +23,9 @@ class _HomePageState extends State<HomePage> {
   int _nivelSubtracao = 1;
   int _nivelMultiplicacao = 1;
   int _nivelDivisao = 1;
+  int _multiplicadorAdicao = 5;
+  int _multiplicadorSubtracao = 5;
+  String _nivel = 'Desativado';
   int _acertoSequencialAdicao = 0;
   int _acertoSequencialSubtracao = 0;
   int _acertoSequencialMultiplicacao = 0;
@@ -171,6 +174,16 @@ class _HomePageState extends State<HomePage> {
                   // _nivelDivisao = 12;
                 },
                 child: const Text('Avançar'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  _multiplicadorAdicao *= 2;
+                  _multiplicadorSubtracao *= 2;
+                  setState(() {
+                    _nivel = 'Ativado ' + _multiplicadorAdicao.toString();
+                  });
+                },
+                child: Text(_nivel),
               ),
             ],
           ),
@@ -524,14 +537,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   void gerarDesafioDeAdicao() {
-    _max = _nivelAdicao * 5;
+    _max = _nivelAdicao * _multiplicadorAdicao;
     _x = _min + random.nextInt(_max - _min + 1);
     _y = _min + random.nextInt(_max - _min + 1);
   }
 
   void gerarDesafioDeSubtracao() {
     int aux;
-    _max = _nivelSubtracao * 5;
+    _max = _nivelSubtracao * _multiplicadorSubtracao;
     _x = _min + random.nextInt(_max - _min + 1);
     _y = _min + random.nextInt(_max - _min + 1);
 
